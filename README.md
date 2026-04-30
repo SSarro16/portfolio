@@ -48,3 +48,7 @@ src/
 ## Deployment
 
 This is a static Vite application. Build output is generated in `dist/` and can be deployed on static hosts such as Render, Netlify, Vercel or GitHub Pages.
+
+## Public data
+
+The public UI intentionally uses email and GitHub as the main contact channels. No backend, private CV file, API keys or environment files are required for this portfolio.
