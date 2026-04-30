@@ -1,0 +1,9 @@
+node_modules
+dist
+tsconfig.tsbuildinfo
+.env
+.env.*
+.DS_Store
+*.local
+output
+.playwright-cli
