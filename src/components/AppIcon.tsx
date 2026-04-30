@@ -1,4 +1,4 @@
-import { AdFidoIcon } from "./icons";
+import { useState } from "react";
 
 type AppIconProps = {
   title: string;
@@ -6,25 +6,23 @@ type AppIconProps = {
 };
 
 export function AppIcon({ title, favicon }: AppIconProps) {
-  if (title === "AdFido") {
-    return (
-      <span className="app-icon" aria-hidden="true">
-        <AdFidoIcon />
-      </span>
-    );
-  }
-
-  if (favicon) {
-    return (
-      <span className="app-icon">
-        <img src={favicon} alt="" loading="lazy" />
-      </span>
-    );
-  }
+  const [hasImageError, setHasImageError] = useState(false);
+  const fallbackLabel = title.slice(0, 2).toUpperCase();
 
   return (
-    <span className="app-icon app-icon-fallback" aria-hidden="true">
-      {title.slice(0, 2).toUpperCase()}
+    <span className={`app-icon ${favicon && !hasImageError ? "" : "app-icon-fallback"}`} aria-hidden="true">
+      <span className="app-icon-label">{fallbackLabel}</span>
+      {favicon && !hasImageError ? (
+        <img
+          src={favicon}
+          alt=""
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+            setHasImageError(true);
+          }}
+        />
+      ) : null}
     </span>
   );
 }

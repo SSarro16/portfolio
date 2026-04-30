@@ -2,20 +2,20 @@ import type { Project, ProjectLink } from "../data/projects";
 import type { Language } from "../i18n/translations";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { AppIcon } from "./AppIcon";
-import { CodePanel } from "./CodePanel";
-import { AssetIcon, ExternalIcon, GithubIcon, SlashIcon } from "./icons";
+import { AndroidIcon, AppleIcon, ExternalIcon, GithubIcon } from "./icons";
+import { ProjectPreview } from "./ProjectPreview";
 
 function LinkIcon({ kind }: { kind: ProjectLink["kind"] }) {
   if (kind === "repo") {
     return <GithubIcon />;
   }
 
-  if (kind === "router") {
-    return <SlashIcon />;
+  if (kind === "android") {
+    return <AndroidIcon />;
   }
 
-  if (kind === "favicon") {
-    return <AssetIcon />;
+  if (kind === "ios") {
+    return <AppleIcon />;
   }
 
   return <ExternalIcon />;
@@ -36,6 +36,14 @@ export function ProjectCard({ project, language }: { project: Project; language:
 
       <p className="project-description">{project.description[language]}</p>
 
+      {project.statusNote ? <p className="project-status-note">{project.statusNote[language]}</p> : null}
+
+      {project.previewImage ? (
+        <div className="project-preview-wrap">
+          <ProjectPreview project={project} />
+        </div>
+      ) : null}
+
       <div className="quick-links" aria-label={`${project.title} ${String(t.quickLinks)}`}>
         {project.links.map((link) => (
           <a key={`${project.title}-${link.label}`} href={link.href} target="_blank" rel="noreferrer">
@@ -45,24 +53,8 @@ export function ProjectCard({ project, language }: { project: Project; language:
         ))}
       </div>
 
-      {project.routes ? (
-        <div className="routes" aria-label={`${project.title} ${String(t.routes)}`}>
-          {project.routes.map((route) => (
-            <code key={route}>{route}</code>
-          ))}
-        </div>
-      ) : null}
-
-      <CodePanel code={project.codeSnippet} compact />
-
-      <div className="metrics" aria-label={`${project.title} ${String(t.metrics)}`}>
-        {project.metrics[language].map((metric) => (
-          <span key={metric}>{metric}</span>
-        ))}
-      </div>
-
       <div className="tag-list">
-        {project.tags.map((tag) => (
+        {project.tags.slice(0, 5).map((tag) => (
           <span key={tag}>{tag}</span>
         ))}
       </div>

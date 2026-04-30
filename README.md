@@ -35,7 +35,7 @@ npm run typecheck
 
 ```txt
 public/
-  favicon.svg
+  favicon.png
 src/
   components/
   data/

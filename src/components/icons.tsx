@@ -37,6 +37,27 @@ export function AssetIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function AndroidIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m8 5-1.5-2M16 5l1.5-2" />
+      <path fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" d="M6 9.5A6 6 0 0 1 12 4a6 6 0 0 1 6 5.5V18a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9.5Z" />
+      <path fill="currentColor" d="M9 10.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM15 10.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
+    </svg>
+  );
+}
+
+export function AppleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path
+        fill="currentColor"
+        d="M17.7 12.5c0-2.1 1.7-3.1 1.8-3.2-1-1.5-2.5-1.7-3.1-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.9.9-3.6 2.2-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.7 3-0.7 1.4 0 1.8.7 3 .7 1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.2-2.5 1.2-2.6 0 0-2.4-.9-2.4-3.7ZM15.6 6.2c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.3-.6.7-1 1.7-.9 2.7 1 .1 2-.5 2.6-1.2Z"
+      />
+    </svg>
+  );
+}
+
 export function MailIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>

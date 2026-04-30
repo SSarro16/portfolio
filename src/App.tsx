@@ -1,4 +1,5 @@
-import { CommandBar } from "./components/CommandBar";
+import { useState } from "react";
+import { ContactDialog } from "./components/ContactDialog";
 import { EditorCard } from "./components/EditorCard";
 import { GithubIcon, MailIcon } from "./components/icons";
 import { Navbar } from "./components/Navbar";
@@ -11,6 +12,7 @@ import { useLanguage } from "./i18n/LanguageProvider";
 
 function App() {
   const { language, t } = useLanguage();
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <div className="site-shell" id="top">
@@ -37,7 +39,6 @@ function App() {
               <span>{profile.email}</span>
               <span>B2 English</span>
             </div>
-            <CommandBar />
           </div>
           <EditorCard />
         </section>
@@ -60,31 +61,21 @@ function App() {
           </div>
         </section>
 
-        <section className="section-wrap workflow-section" aria-labelledby="workflow-title">
-          <SectionHeading title={String(t.workflowTitle)} filename="commits.log" />
-          <div className="commit-list">
-            {(t.commits as Array<{ hash: string; title: string; body: string }>).map((commit) => (
-              <article className="commit-card" key={commit.hash}>
-                <code>{commit.hash}</code>
-                <div>
-                  <h3>{commit.title}</h3>
-                  <p>{commit.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="section-wrap final-cta" aria-labelledby="cta-title">
-          <div>
-            <span className="section-file">contact/mail.ts</span>
+          <div className="cta-copy">
             <h2 id="cta-title">{String(t.ctaTitle)}</h2>
+            <p>{String(t.ctaSubtitle)}</p>
+            <div className="contact-topics" aria-label={String(t.contactTopicsLabel)}>
+              {(t.contactTopics as string[]).map((topic) => (
+                <span key={topic}>{topic}</span>
+              ))}
+            </div>
           </div>
           <div className="cta-actions">
-            <a className="button button-primary" href={`mailto:${profile.email}`}>
+            <button className="button button-primary" type="button" onClick={() => setIsContactOpen(true)}>
               <MailIcon />
               {String(t.sendEmail)}
-            </a>
+            </button>
             <a className="button button-ghost" href={profile.github} target="_blank" rel="noreferrer">
               <GithubIcon />
               {String(t.githubProfile)}
@@ -92,6 +83,8 @@ function App() {
           </div>
         </section>
       </main>
+
+      <ContactDialog isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} recipient={profile.email} />
     </div>
   );
 }
