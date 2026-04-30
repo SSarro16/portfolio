@@ -6,10 +6,11 @@ import { MailIcon } from "./icons";
 type ContactDialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  recipient: string;
 };
 
-export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps) {
+type SubmitStatus = "idle" | "sending" | "success" | "error";
+
+export function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
   const { t } = useLanguage();
   const requestTypes = t.contactRequestTypes as string[];
   const [requestType, setRequestType] = useState(requestTypes[0] ?? "");
@@ -17,6 +18,7 @@ export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isTypeOpen, setIsTypeOpen] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
 
   useEffect(() => {
     if (!isOpen) {
@@ -43,24 +45,45 @@ export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps
     setIsTypeOpen(false);
   }, [requestTypes]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setSubmitStatus("idle");
+    }
+  }, [isOpen]);
+
   if (!isOpen) {
     return null;
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSubmitStatus("sending");
 
-    const subject = `[Portfolio] ${requestType || String(t.contactSubjectFallback)}`;
-    const body = [
-      `${String(t.contactMailType)}: ${requestType}`,
-      `${String(t.contactMailName)}: ${name || "-"}`,
-      `${String(t.contactMailEmail)}: ${email || "-"}`,
-      "",
-      String(t.contactMailMessage),
-      message,
-    ].join("\n");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requestType,
+          name,
+          email,
+          message,
+        }),
+      });
 
-    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      if (!response.ok) {
+        throw new Error("Contact request failed");
+      }
+
+      setSubmitStatus("success");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setSubmitStatus("error");
+    }
   };
 
   return (
@@ -125,7 +148,12 @@ export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps
           <div className="form-grid">
             <label>
               <span>{String(t.contactNameLabel)}</span>
-              <input value={name} onChange={(event) => setName(event.target.value)} placeholder={String(t.contactNamePlaceholder)} />
+              <input
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder={String(t.contactNamePlaceholder)}
+                required
+              />
             </label>
             <label>
               <span>{String(t.contactEmailLabel)}</span>
@@ -134,6 +162,7 @@ export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder={String(t.contactEmailPlaceholder)}
+                required
               />
             </label>
           </div>
@@ -150,13 +179,15 @@ export function ContactDialog({ isOpen, onClose, recipient }: ContactDialogProps
           </label>
 
           <div className="contact-form-actions">
-            <button className="button button-primary" type="submit">
+            <button className="button button-primary" type="submit" disabled={submitStatus === "sending"}>
               <MailIcon />
-              {String(t.contactSubmit)}
+              {submitStatus === "sending" ? String(t.contactSending) : String(t.contactSubmit)}
             </button>
             <button className="button button-ghost" type="button" onClick={onClose}>
               {String(t.contactCancel)}
             </button>
+            {submitStatus === "success" ? <p className="contact-form-status is-success">{String(t.contactSuccess)}</p> : null}
+            {submitStatus === "error" ? <p className="contact-form-status is-error">{String(t.contactError)}</p> : null}
           </div>
         </form>
       </section>
