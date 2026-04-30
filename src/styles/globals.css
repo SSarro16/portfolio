@@ -1,0 +1,679 @@
+:root {
+  color-scheme: dark;
+  --bg: #050914;
+  --panel: rgba(11, 18, 32, 0.76);
+  --panel-2: rgba(255, 255, 255, 0.075);
+  --border: rgba(148, 163, 184, 0.2);
+  --border-strong: rgba(125, 211, 252, 0.35);
+  --text: #ecfeff;
+  --muted: #94a3b8;
+  --cyan: #67e8f9;
+  --lime: #a3e635;
+  --violet: #c4b5fd;
+  --amber: #facc15;
+  --red: #fb7185;
+  --green: #34d399;
+  --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+  --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(103, 232, 249, 0.16), transparent 28rem),
+    radial-gradient(circle at 85% 6%, rgba(163, 230, 53, 0.12), transparent 24rem),
+    linear-gradient(rgba(103, 232, 249, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.035) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, auto, 42px 42px, 42px 42px, auto;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+.site-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.navbar {
+  position: sticky;
+  top: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 14px 0 42px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(5, 9, 20, 0.82);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.brand,
+.nav-actions,
+.hero-actions,
+.cta-actions,
+.quick-links,
+.metrics,
+.tag-list,
+.routes,
+.hero-contact {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 12px;
+  min-width: max-content;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--cyan), var(--lime));
+  font-family: var(--mono);
+  font-weight: 800;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand small,
+.role-line,
+.section-file,
+.project-type,
+.filename,
+.line-number,
+.metrics,
+.routes,
+.command-bar,
+.file-tree,
+.commit-card code {
+  font-family: var(--mono);
+}
+
+.brand small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.nav-actions {
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-actions > a,
+.language-toggle button,
+.button,
+.quick-links a {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.nav-actions > a {
+  padding: 10px 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.nav-actions > a:hover,
+.quick-links a:hover,
+.button:hover,
+.language-toggle button:hover {
+  border-color: var(--border-strong);
+  background: rgba(103, 232, 249, 0.1);
+  transform: translateY(-1px);
+}
+
+.language-toggle {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.language-toggle button {
+  min-width: 42px;
+  padding: 10px 9px;
+  border: 0;
+  border-radius: 0;
+  color: var(--muted);
+  font: 700 0.78rem var(--mono);
+  cursor: pointer;
+}
+
+.language-toggle .is-active {
+  color: var(--bg);
+  background: var(--cyan);
+}
+
+.section-wrap {
+  margin-bottom: 92px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr);
+  align-items: center;
+  gap: 36px;
+  min-height: calc(100vh - 130px);
+}
+
+.role-line,
+.section-file,
+.project-type {
+  margin: 0 0 14px;
+  color: var(--lime);
+  font-size: 0.83rem;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 860px;
+  margin-bottom: 22px;
+  font-size: clamp(3rem, 8vw, 6.8rem);
+  line-height: 0.92;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+h3 {
+  margin-bottom: 8px;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.hero-subtitle,
+.bio-line,
+.section-heading p,
+.project-description,
+.commit-card p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.hero-subtitle {
+  max-width: 760px;
+  font-size: 1.15rem;
+}
+
+.bio-line {
+  max-width: 720px;
+}
+
+.hero-actions,
+.cta-actions {
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 28px 0 18px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 12px 16px;
+  font-weight: 800;
+}
+
+.button svg,
+.quick-links svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.button-primary {
+  color: var(--bg);
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--cyan), var(--lime));
+}
+
+.button-ghost {
+  color: var(--text);
+}
+
+.hero-contact {
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.hero-contact span {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.command-bar {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(3, 7, 18, 0.72);
+  color: var(--cyan);
+  overflow-x: auto;
+}
+
+.editor-card,
+.project-card,
+.final-cta,
+.commit-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), var(--panel));
+  box-shadow: var(--shadow);
+}
+
+.editor-card {
+  padding: 14px;
+}
+
+.code-panel {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.86);
+}
+
+.panel-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.window-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.red {
+  background: var(--red);
+}
+
+.amber {
+  background: var(--amber);
+}
+
+.green {
+  background: var(--green);
+}
+
+.filename {
+  margin-left: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.code-panel code {
+  display: block;
+  min-width: max-content;
+  padding: 16px 0;
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.code-panel-compact code {
+  font-size: 0.78rem;
+}
+
+.code-line {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  min-height: 1.65em;
+}
+
+.line-number {
+  color: rgba(148, 163, 184, 0.56);
+  text-align: right;
+  user-select: none;
+}
+
+.line-text {
+  padding: 0 16px;
+  white-space: pre;
+}
+
+.profile-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.profile-meta span,
+.file-tree {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.profile-meta span {
+  padding: 10px;
+}
+
+.file-tree {
+  padding: 14px;
+}
+
+.file-tree > span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--lime);
+  font-size: 0.78rem;
+}
+
+.file-tree pre {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.section-heading {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.project-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.app-icon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.app-icon svg,
+.app-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-icon-fallback {
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  font-family: var(--mono);
+  font-weight: 900;
+}
+
+.project-card h3 {
+  margin: 0;
+}
+
+.project-type {
+  margin-bottom: 5px;
+  color: var(--violet);
+}
+
+.quick-links {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 10px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.routes,
+.metrics,
+.tag-list {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.routes code,
+.metrics span,
+.tag-list span,
+.stack-grid span {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.052);
+}
+
+.routes code {
+  padding: 7px 9px;
+  color: var(--cyan);
+  font-size: 0.78rem;
+}
+
+.metrics span {
+  padding: 8px 10px;
+  color: var(--lime);
+  font-size: 0.78rem;
+}
+
+.tag-list span {
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.stack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stack-grid span {
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+.commit-list {
+  display: grid;
+  gap: 14px;
+}
+
+.commit-card {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 18px;
+  padding: 18px;
+}
+
+.commit-card code {
+  color: var(--amber);
+}
+
+.commit-card h3 {
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.commit-card p {
+  margin-bottom: 0;
+}
+
+.final-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: clamp(22px, 5vw, 44px);
+}
+
+.final-cta h2 {
+  max-width: 720px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .navbar,
+  .final-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-shell {
+    width: min(100% - 22px, 1180px);
+  }
+
+  .navbar {
+    top: 8px;
+    margin-bottom: 34px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand small {
+    max-width: 190px;
+  }
+
+  .nav-actions > a,
+  .language-toggle button {
+    padding: 9px 10px;
+  }
+
+  h1 {
+    font-size: clamp(2.55rem, 13vw, 4.2rem);
+  }
+
+  .profile-meta,
+  .commit-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    padding: 16px;
+  }
+
+  .project-card-header {
+    align-items: flex-start;
+  }
+
+  .command-bar,
+  .file-tree,
+  .code-panel {
+    max-width: calc(100vw - 54px);
+  }
+}
