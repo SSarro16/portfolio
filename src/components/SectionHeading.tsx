@@ -6,7 +6,7 @@ type SectionHeadingProps = {
 
 export function SectionHeading({ title, subtitle, filename }: SectionHeadingProps) {
   return (
-    <header className="section-heading">
+    <header className="section-heading motion-reveal">
       {filename ? <span className="section-file">{filename}</span> : null}
       <h2>{title}</h2>
       {subtitle ? <p>{subtitle}</p> : null}

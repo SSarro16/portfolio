@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type CodePanelProps = {
   code: string;
   filename?: string;
@@ -8,7 +10,7 @@ export function CodePanel({ code, filename, compact = false }: CodePanelProps) {
   const lines = code.split("\n");
 
   return (
-    <div className={`code-panel ${compact ? "code-panel-compact" : ""}`}>
+    <div className={`code-panel code-panel-typing ${compact ? "code-panel-compact" : ""}`}>
       {filename ? (
         <div className="panel-topbar">
           <span className="window-dot red" />
@@ -20,7 +22,16 @@ export function CodePanel({ code, filename, compact = false }: CodePanelProps) {
       <pre>
         <code>
           {lines.map((line, index) => (
-            <span className="code-line" key={`${line}-${index}`}>
+            <span
+              className="code-line"
+              key={`${line}-${index}`}
+              style={
+                {
+                  "--line-index": index,
+                  "--line-chars": Math.max(line.length, 1),
+                } as CSSProperties
+              }
+            >
               <span className="line-number">{index + 1}</span>
               <span className="line-text">{line || " "}</span>
             </span>

@@ -17,7 +17,7 @@ export function EditorCard() {
   const { t } = useLanguage();
 
   return (
-    <aside className="editor-card" aria-label="Developer profile snippet">
+    <aside className="editor-card motion-reveal motion-reveal-right" aria-label="Developer profile snippet">
       <CodePanel code={profileSnippet} filename={String(t.profileFile)} />
     </aside>
   );

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Project, ProjectLink } from "../data/projects";
 import type { Language } from "../i18n/translations";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -21,11 +22,11 @@ function LinkIcon({ kind }: { kind: ProjectLink["kind"] }) {
   return <ExternalIcon />;
 }
 
-export function ProjectCard({ project, language }: { project: Project; language: Language }) {
+export function ProjectCard({ project, language, style }: { project: Project; language: Language; style?: CSSProperties }) {
   const { t } = useLanguage();
 
   return (
-    <article className="project-card">
+    <article className="project-card motion-reveal" style={style}>
       <div className="project-card-header">
         <AppIcon title={project.title} favicon={project.favicon} />
         <div>
