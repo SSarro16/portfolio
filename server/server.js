@@ -12,6 +12,7 @@ const port = Number(process.env.PORT ?? 10000);
 app.use(express.json({ limit: "32kb" }));
 
 const requiredEnv = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "CONTACT_TO", "CONTACT_FROM"];
+const smtpTimeout = 12000;
 
 function missingMailConfig() {
   return requiredEnv.filter((key) => !process.env[key]);
@@ -41,6 +42,9 @@ function createTransporter() {
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
     secure,
+    connectionTimeout: smtpTimeout,
+    greetingTimeout: smtpTimeout,
+    socketTimeout: smtpTimeout,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -48,10 +52,28 @@ function createTransporter() {
   });
 }
 
+function getMailErrorDetails(error) {
+  if (!(error instanceof Error)) {
+    return {
+      message: "Unknown mail error",
+    };
+  }
+
+  return {
+    message: error.message,
+    code: error.code,
+    command: error.command,
+    response: error.response,
+    responseCode: error.responseCode,
+  };
+}
+
 app.post("/api/contact", async (request, response) => {
+  console.log("Contact request received");
   const missing = missingMailConfig();
 
   if (missing.length > 0) {
+    console.error(`Missing mail config: ${missing.join(", ")}`);
     response.status(500).json({ error: "Mail service is not configured." });
     return;
   }
@@ -62,6 +84,7 @@ app.post("/api/contact", async (request, response) => {
   const message = cleanText(request.body?.message, 4000);
 
   if (!name || !isEmail(email) || !message) {
+    console.error("Invalid contact request payload");
     response.status(400).json({ error: "Invalid contact request." });
     return;
   }
@@ -79,10 +102,12 @@ app.post("/api/contact", async (request, response) => {
       text: message,
     });
 
+    console.log("Contact email sent");
     response.status(200).json({ ok: true });
   } catch (error) {
-    console.error("Failed to send contact email", error);
-    response.status(502).json({ error: "Unable to send email." });
+    const details = getMailErrorDetails(error);
+    console.error("Failed to send contact email", details);
+    response.status(502).json({ error: "Unable to send email.", details });
   }
 });
 

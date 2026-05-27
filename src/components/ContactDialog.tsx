@@ -58,10 +58,13 @@ export function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitStatus("sending");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
         },
@@ -83,6 +86,8 @@ export function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
       setMessage("");
     } catch {
       setSubmitStatus("error");
+    } finally {
+      window.clearTimeout(timeout);
     }
   };
 

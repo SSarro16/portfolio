@@ -32,7 +32,7 @@ export const projects: Project[] = [
     previewImage: "/preview-goanimedle.png",
     type: { it: "Daily anime quiz game", en: "Daily anime quiz game" },
     repo: "https://github.com/SSarro16/goanimedle",
-    demo: "https://animedle-9ne7.onrender.com/",
+    demo: "https://www.goanimedle.org/",
     favicon: projectFavicon("goanimedle"),
     faviconAsset: projectFavicon("goanimedle"),
     routerFile: "https://github.com/SSarro16/goanimedle/blob/main/src/app/router/AppRouter.tsx",
@@ -41,8 +41,8 @@ export const projects: Project[] = [
       en: "Daily-first anime guessing game with multiple modes, dedicated routing, local datasets as source of truth, optional Firebase and smoke tests.",
     },
     statusNote: {
-      it: "In lavorazione.",
-      en: "Work in progress.",
+      it: "Ufficialmente in produzione su www.goanimedle.org.",
+      en: "Officially in production on www.goanimedle.org.",
     },
     tags: ["React", "TypeScript", "Vite", "Firebase", "Vitest", "Playwright"],
     routes: ["/classica", "/anime", "/anime-cast", "/citazioni", "/crea-stanza"],
@@ -62,7 +62,7 @@ export const dataSource =
   import.meta.env.VITE_DATA_SOURCE_MODE ?? "local";`,
     links: [
       { label: "Repo", href: "https://github.com/SSarro16/goanimedle", kind: "repo" },
-      { label: "Demo", href: "https://animedle-9ne7.onrender.com/", kind: "demo" },
+      { label: "Demo", href: "https://www.goanimedle.org/", kind: "demo" },
     ],
   },
   {
